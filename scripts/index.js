@@ -6,11 +6,20 @@ const channels = [
   "Discovery HD World",
 ];
 
+const prevButton = document.getElementById("prev");
+const nextButton = document.getElementById("next");
+const timelineContainer = document.getElementById("timeline");
+let pageNumber = 1;
+let numberOfPages;
+
 function updateSchedule(schedule) {
   const timeline = document.getElementById("timeline");
   timeline.innerHTML = ""; // Clear the existing timeline
 
-  for (const [startTime, program] of Object.entries(schedule)) {
+  const scheduleArray = Object.entries(schedule);
+  numberOfPages = scheduleArray.length;
+
+  for (const [startTime, program] of scheduleArray) {
     const timeSlotDiv = document.createElement("div");
     timeSlotDiv.className = "time-slot";
 
@@ -34,16 +43,32 @@ function updateSchedule(schedule) {
   }
 }
 
-document.getElementById("prev").addEventListener("click", () => {
-  document.getElementById("timeline-container").scrollLeft -= 100;
+function getProgramContainerWidth(pageNumber) {
+  const programContainer = timelineContainer.querySelector(
+    `.time-slot:nth-of-type(${pageNumber})`
+  );
+  return programContainer.offsetWidth;
+}
+
+prevButton.addEventListener("click", () => {
+  if (pageNumber > 1) --pageNumber;
+  else pageNumber = 1;
+
+  const containerWidth = getProgramContainerWidth(pageNumber);
+  timelineContainer.scrollLeft -= containerWidth + 20;
 });
 
-document.getElementById("next").addEventListener("click", () => {
-  document.getElementById("timeline-container").scrollLeft += 100;
+nextButton.addEventListener("click", () => {
+  const containerWidth = getProgramContainerWidth(pageNumber);
+  timelineContainer.scrollLeft += containerWidth + 20;
+
+  if (pageNumber < numberOfPages) ++pageNumber;
+  else pageNumber = numberOfPages;
 });
 
 (async () => {
   const channelSchedule = await getChannelSchedule("Discovery HD World");
   console.log(channelSchedule);
+
   updateSchedule(channelSchedule); // Update the schedule in the HTML
 })();

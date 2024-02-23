@@ -10,18 +10,20 @@
 }
 
 #timeline-container {
-  overflow-x: auto;
-  white-space: nowrap;
+  display: flex;
+  gap: 0.5rem;
 }
 
 #timeline {
+  overflow-x: hidden;
+  white-space: nowrap;
   display: inline-flex;
   justify-content: space-between;
   margin-bottom: 20px;
 }
 
 .time-slot {
-  margin-right: 20px;
+  margin-right: 15px;
 }
 
 .program {
