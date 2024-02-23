@@ -1,11 +1,5 @@
 /* const url =
   "https://indian-tv-schedule.p.rapidapi.com/Schedule?channel=Sony%20Six%20HD"; */
-const channels = [
-  "Sony Six HD",
-  "CNN NEWS 18",
-  "Republic TV",
-  "Discovery HD World",
-];
 
 const baseUrl = "https://indian-tv-schedule.p.rapidapi.com";
 const options = {
@@ -27,14 +21,11 @@ async function fetchData(url, options) {
   }
 }
 
-async function getChannelScedule(channel) {
+async function getChannelSchedule(channel) {
   const searchParams = new URLSearchParams({ channel });
   const url = `${baseUrl}/Schedule?${searchParams}`;
 
   return await fetchData(url, options);
 }
 
-(async () => {
-  const channelSchedule = await getChannelScedule("Discovery HD World");
-  console.log(channelSchedule);
-})();
+export { getChannelSchedule };

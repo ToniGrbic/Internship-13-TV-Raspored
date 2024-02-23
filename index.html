@@ -12,19 +12,13 @@
         <button id="prev">Prev</button>
         <button id="next">Next</button>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Time</th>
-            <th>Show</th>
-            <th>Channel</th>
-          </tr>
-        </thead>
-        <tbody id="schedule-body">
-          <!-- Schedule data will be inserted here -->
-        </tbody>
-      </table>
+      <div id="timeline-container">
+        <div id="timeline">
+          <!-- Timeline and schedule data will be inserted here -->
+        </div>
+      </div>
     </div>
-    <script src="./scripts/api.js"></script>
   </body>
+  <script src="./scripts/api.js" type="module"></script>
+  <script src="./scripts/index.js" type="module"></script>
 </html>
