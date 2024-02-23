@@ -8,16 +8,17 @@ const channels = [
 
 const prevButton = document.getElementById("prev");
 const nextButton = document.getElementById("next");
-const timelineContainer = document.getElementById("timeline");
-let pageNumber = 1;
-let numberOfPages;
+const timelinesContainer = document.querySelector("#timelines-container");
 
-function updateSchedule(schedule) {
-  const timeline = document.getElementById("timeline");
-  timeline.innerHTML = ""; // Clear the existing timeline
+let translateWidth = 0;
+let boxScrollPct = 0;
+let ignoreScroll = false;
+let timeOutId = null;
+
+function displaySchedule(schedule, index) {
+  const timeline = document.querySelector(`#channel-${index} .timeline`);
 
   const scheduleArray = Object.entries(schedule);
-  numberOfPages = scheduleArray.length;
 
   for (const [startTime, program] of scheduleArray) {
     const timeSlotDiv = document.createElement("div");
@@ -43,32 +44,57 @@ function updateSchedule(schedule) {
   }
 }
 
-function getProgramContainerWidth(pageNumber) {
-  const programContainer = timelineContainer.querySelector(
-    `.time-slot:nth-of-type(${pageNumber})`
-  );
-  return programContainer.offsetWidth;
+function getProgramContainerWidth() {
+  const programContainer = timelinesContainer.querySelector(".time-slot");
+  return programContainer.offsetWidth + 15;
 }
 
 prevButton.addEventListener("click", () => {
-  if (pageNumber > 1) --pageNumber;
-  else pageNumber = 1;
+  const containerWidth = getProgramContainerWidth();
+  translateWidth -= containerWidth;
 
-  const containerWidth = getProgramContainerWidth(pageNumber);
-  timelineContainer.scrollLeft -= containerWidth + 20;
+  if (translateWidth < 0) {
+    translateWidth = 0;
+  }
+  timelinesContainer.scroll({ left: translateWidth, behavior: "smooth" });
 });
 
 nextButton.addEventListener("click", () => {
-  const containerWidth = getProgramContainerWidth(pageNumber);
-  timelineContainer.scrollLeft += containerWidth + 20;
+  const containerWidth = getProgramContainerWidth();
+  translateWidth += containerWidth;
 
-  if (pageNumber < numberOfPages) ++pageNumber;
-  else pageNumber = numberOfPages;
+  const scrollWidth = timelinesContainer.scrollWidth;
+  if (translateWidth > scrollWidth) {
+    translateWidth = scrollWidth;
+  }
+  timelinesContainer.scroll({ left: translateWidth, behavior: "smooth" });
+});
+
+// prevent scroll position changing on window resize
+timelinesContainer.addEventListener("scroll", ({ target: t }) => {
+  if (ignoreScroll) return;
+  boxScrollPct = t.scrollLeft / (t.scrollWidth - t.clientWidth);
+});
+
+window.addEventListener("resize", (e) => {
+  ignoreScroll = true;
+  const { scrollWidth, clientWidth } = timelinesContainer;
+  timelinesContainer.scrollLeft = boxScrollPct * (scrollWidth - clientWidth);
+
+  clearTimeout(timeOutId);
+  timeOutId = setTimeout(() => {
+    ignoreScroll = false;
+  }, 50);
 });
 
 (async () => {
-  const channelSchedule = await getChannelSchedule("Discovery HD World");
-  console.log(channelSchedule);
+  let channelSchedules = [];
+  for (const channel of channels) {
+    channelSchedules.push(getChannelSchedule(channel));
+  }
+  const schedules = await Promise.all(channelSchedules);
 
-  updateSchedule(channelSchedule); // Update the schedule in the HTML
+  schedules.forEach((schedule, index) => {
+    displaySchedule(schedule, index + 1);
+  });
 })();

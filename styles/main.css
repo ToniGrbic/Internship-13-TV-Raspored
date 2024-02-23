@@ -1,3 +1,18 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+#content-wrapper {
+  display: flex;
+  max-width: 1400px;
+  width: 100%;
+  margin-left: 3rem;
+}
+
 .tv-schedule {
   width: 100%;
   margin: 0 auto;
@@ -6,18 +21,25 @@
 .pagination {
   display: flex;
   justify-content: space-between;
+  width: 70%;
   margin-bottom: 20px;
 }
 
-#timeline-container {
-  display: flex;
-  gap: 0.5rem;
+#timelines-container {
+  overflow-x: scroll;
+  width: 80%;
+  padding-left: 1rem;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
-#timeline {
-  overflow-x: hidden;
+#timelines-container::-webkit-scrollbar {
+  display: none;
+}
+
+.timeline {
   white-space: nowrap;
-  display: inline-flex;
+  display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 }
@@ -30,4 +52,21 @@
   border: 1px solid #ddd;
   padding: 8px;
   margin-top: 10px;
+  width: 25vw;
+  text-wrap: wrap;
+}
+
+#channels-container {
+  z-index: 2;
+  background-color: rgb(255, 255, 255);
+  border-right: solid 1px #ddd;
+}
+
+.channel-name {
+  z-index: 2;
+  text-wrap: nowrap;
+  min-width: 136px;
+  height: 100px;
+  display: flex;
+  align-items: center;
 }
