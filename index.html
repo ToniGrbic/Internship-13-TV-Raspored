@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body>
+    <div class="tv-schedule">
+      <div class="pagination">
+        <button id="prev">Prev</button>
+        <button id="next">Next</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Show</th>
+            <th>Channel</th>
+          </tr>
+        </thead>
+        <tbody id="schedule-body">
+          <!-- Schedule data will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+    <script src="./scripts/api.js"></script>
+  </body>
+</html>
