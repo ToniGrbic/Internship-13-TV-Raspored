@@ -54,8 +54,9 @@ function displaySchedule(schedule, index) {
 function scrollToCurrentHours() {
   const currentHour = new Date().getHours();
   const containerWidth = getProgramContainerWidth();
-  scrollPos = containerWidth * (currentHour + 1);
-  console.log(scrollPos);
+  scrollPos =
+    containerWidth * (currentHour === 0 ? currentHour : currentHour + 4);
+
   timelinesContainer.scroll({ left: scrollPos, behavior: "smooth" });
   return currentHour;
 }
@@ -93,21 +94,26 @@ function hideLoading() {
 
 prevButton.addEventListener("click", () => {
   const containerWidth = getProgramContainerWidth();
+  const { scrollWidth, clientWidth } = timelinesContainer;
+
+  scrollPos = boxScrollPct * (scrollWidth - clientWidth);
   scrollPos -= containerWidth;
 
-  if (scrollPos < 0) {
-    scrollPos = 0;
+  if (scrollPos <= 0) {
+    scrollPos = scrollWidth;
   }
   timelinesContainer.scroll({ left: scrollPos, behavior: "smooth" });
 });
 
 nextButton.addEventListener("click", () => {
   const containerWidth = getProgramContainerWidth();
+  const { scrollWidth, clientWidth } = timelinesContainer;
+
+  scrollPos = boxScrollPct * (scrollWidth - clientWidth);
   scrollPos += containerWidth;
 
-  const scrollWidth = timelinesContainer.scrollWidth;
-  if (scrollPos > scrollWidth) {
-    scrollPos = scrollWidth;
+  if (scrollPos + 15 >= scrollWidth) {
+    scrollPos = 0;
   }
   timelinesContainer.scroll({ left: scrollPos, behavior: "smooth" });
 });
