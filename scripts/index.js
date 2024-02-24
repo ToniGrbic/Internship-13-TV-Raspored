@@ -10,7 +10,8 @@ const prevButton = document.getElementById("prev");
 const nextButton = document.getElementById("next");
 const timelinesContainer = document.querySelector("#timelines-container");
 const channelNames = document.querySelectorAll(".channel");
-
+/* const contentWrapper = document.querySelector("#content-wrapper"); */
+const loader = document.querySelector(".loader");
 channelNames.forEach((channel, index) => {
   channel.textContent = channels[index];
 });
@@ -53,6 +54,7 @@ function scrollToCurrentHours() {
   const currentHour = new Date().getHours();
   const containerWidth = getProgramContainerWidth();
   scrollPos = containerWidth * (currentHour + 1);
+  console.log(scrollPos);
   timelinesContainer.scroll({ left: scrollPos, behavior: "smooth" });
   return currentHour;
 }
@@ -119,6 +121,10 @@ window.addEventListener("resize", (e) => {
 // Fetch data and display schedules
 document.addEventListener("DOMContentLoaded", async () => {
   let channelSchedules = [];
+
+  loader.classList.remove("hidden");
+  loader.classList.add("show");
+
   for (const channel of channels) {
     channelSchedules.push(getChannelSchedule(channel));
   }
@@ -127,6 +133,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   schedules.forEach((schedule, index) => {
     displaySchedule(schedule, index + 1);
   });
+
+  loader.classList.remove("show");
+  loader.classList.add("hidden");
 
   const currentHour = scrollToCurrentHours();
   const timelines = document.querySelectorAll(`.timeline`);
