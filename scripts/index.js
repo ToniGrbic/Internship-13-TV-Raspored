@@ -9,8 +9,13 @@ const channels = [
 const prevButton = document.getElementById("prev");
 const nextButton = document.getElementById("next");
 const timelinesContainer = document.querySelector("#timelines-container");
+const channelNames = document.querySelectorAll(".channel");
 
-let translateWidth = 0;
+channelNames.forEach((channel, index) => {
+  channel.textContent = channels[index];
+});
+
+let scrollPos = 0;
 let boxScrollPct = 0;
 let ignoreScroll = false;
 let timeOutId = null;
@@ -44,6 +49,30 @@ function displaySchedule(schedule, index) {
   }
 }
 
+function scrollToCurrentHours() {
+  const currentHour = new Date().getHours();
+  const containerWidth = getProgramContainerWidth();
+  scrollPos = containerWidth * (currentHour + 1);
+  timelinesContainer.scroll({ left: scrollPos, behavior: "smooth" });
+  return currentHour;
+}
+
+function styleLivePrograms(timelines, currentHour) {
+  timelines.forEach((timeline) => {
+    const programs = timeline.querySelectorAll(".program");
+    for (const program of programs) {
+      const programTime =
+        program.previousElementSibling.textContent.split(":")[0];
+
+      if (programTime == currentHour) {
+        program.style.backgroundColor = "green";
+        program.style.color = "white";
+        break;
+      }
+    }
+  });
+}
+
 function getProgramContainerWidth() {
   const programContainer = timelinesContainer.querySelector(".time-slot");
   return programContainer.offsetWidth + 15;
@@ -51,23 +80,23 @@ function getProgramContainerWidth() {
 
 prevButton.addEventListener("click", () => {
   const containerWidth = getProgramContainerWidth();
-  translateWidth -= containerWidth;
+  scrollPos -= containerWidth;
 
-  if (translateWidth < 0) {
-    translateWidth = 0;
+  if (scrollPos < 0) {
+    scrollPos = 0;
   }
-  timelinesContainer.scroll({ left: translateWidth, behavior: "smooth" });
+  timelinesContainer.scroll({ left: scrollPos, behavior: "smooth" });
 });
 
 nextButton.addEventListener("click", () => {
   const containerWidth = getProgramContainerWidth();
-  translateWidth += containerWidth;
+  scrollPos += containerWidth;
 
   const scrollWidth = timelinesContainer.scrollWidth;
-  if (translateWidth > scrollWidth) {
-    translateWidth = scrollWidth;
+  if (scrollPos > scrollWidth) {
+    scrollPos = scrollWidth;
   }
-  timelinesContainer.scroll({ left: translateWidth, behavior: "smooth" });
+  timelinesContainer.scroll({ left: scrollPos, behavior: "smooth" });
 });
 
 // prevent scroll position changing on window resize
@@ -87,7 +116,8 @@ window.addEventListener("resize", (e) => {
   }, 50);
 });
 
-(async () => {
+// Fetch data and display schedules
+document.addEventListener("DOMContentLoaded", async () => {
   let channelSchedules = [];
   for (const channel of channels) {
     channelSchedules.push(getChannelSchedule(channel));
@@ -97,4 +127,8 @@ window.addEventListener("resize", (e) => {
   schedules.forEach((schedule, index) => {
     displaySchedule(schedule, index + 1);
   });
-})();
+
+  const currentHour = scrollToCurrentHours();
+  const timelines = document.querySelectorAll(`.timeline`);
+  styleLivePrograms(timelines, currentHour);
+});
