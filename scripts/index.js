@@ -10,8 +10,9 @@ const prevButton = document.getElementById("prev");
 const nextButton = document.getElementById("next");
 const timelinesContainer = document.querySelector("#timelines-container");
 const channelNames = document.querySelectorAll(".channel");
-/* const contentWrapper = document.querySelector("#content-wrapper"); */
 const loader = document.querySelector(".loader");
+/* const contentWrapper = document.querySelector("#content-wrapper"); */
+
 channelNames.forEach((channel, index) => {
   channel.textContent = channels[index];
 });
@@ -80,6 +81,16 @@ function getProgramContainerWidth() {
   return programContainer.offsetWidth + 15;
 }
 
+function showLoading() {
+  loader.classList.remove("hidden");
+  loader.classList.add("show");
+}
+
+function hideLoading() {
+  loader.classList.remove("show");
+  loader.classList.add("hidden");
+}
+
 prevButton.addEventListener("click", () => {
   const containerWidth = getProgramContainerWidth();
   scrollPos -= containerWidth;
@@ -122,8 +133,7 @@ window.addEventListener("resize", (e) => {
 document.addEventListener("DOMContentLoaded", async () => {
   let channelSchedules = [];
 
-  loader.classList.remove("hidden");
-  loader.classList.add("show");
+  showLoading();
 
   for (const channel of channels) {
     channelSchedules.push(getChannelSchedule(channel));
@@ -134,8 +144,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     displaySchedule(schedule, index + 1);
   });
 
-  loader.classList.remove("show");
-  loader.classList.add("hidden");
+  hideLoading();
 
   const currentHour = scrollToCurrentHours();
   const timelines = document.querySelectorAll(`.timeline`);
