@@ -58,11 +58,25 @@ body {
 }
 
 .program {
+  position: relative;
   border: 1px solid #ddd;
   padding: 8px;
   margin-top: 10px;
   width: 20vw;
   text-wrap: wrap;
+}
+
+.adult {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  color: rgb(255, 49, 49);
+}
+
+.program:hover {
+  cursor: pointer;
+  background-color: #e7e7e7;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 #channels-container {
@@ -111,4 +125,42 @@ body {
   100% {
     transform: rotate(360deg);
   }
+}
+
+#program-details {
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#program-details h2 {
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 24px;
+}
+
+#program-details p {
+  margin-bottom: 10px;
+  color: #666;
+  font-size: 16px;
+}
+
+#program-name {
+  font-weight: bold;
+}
+
+#program-channel {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+#program-type {
+  font-style: italic;
+}
+
+#other-details {
+  text-indent: 20px;
 }

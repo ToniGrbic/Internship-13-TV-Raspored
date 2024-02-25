@@ -11,23 +11,53 @@ const nextButton = document.getElementById("next");
 const timelinesContainer = document.querySelector("#timelines-container");
 const channelNames = document.querySelectorAll(".channel");
 const loader = document.querySelector(".loader");
-/* const contentWrapper = document.querySelector("#content-wrapper"); */
+
+const programDetails = document.querySelector("#program-details");
+const programName = programDetails.querySelector("#program-name");
+const programType = programDetails.querySelector("#program-type");
+const programTime = programDetails.querySelector("#program-time");
+const otherDetails = programDetails.querySelector("#other-details");
+
+let currentProgramDetails;
+let scrollPos = 0;
+let boxScrollPct = 0;
+let ignoreScroll = false;
+let timeOutId = null;
+let parentPIN = 1234;
+
+function setParentPIN() {
+  const newParentPIN = prompt("please provide a new parent PIN. (4-8 digits)");
+  if (
+    isNaN(newParentPIN) ||
+    newParentPIN.length < 4 ||
+    newParentPIN.length > 8
+  ) {
+    alert("Invalid PIN format, please try again.");
+    setParentPIN();
+  } else {
+    alert("Parent PIN set successfully.");
+    parentPIN = newParentPIN;
+  }
+}
 
 channelNames.forEach((channel, index) => {
   channel.textContent = channels[index];
 });
 
-let scrollPos = 0;
-let boxScrollPct = 0;
-let ignoreScroll = false;
-let timeOutId = null;
+function setProgramDetails(program, startTime, endTime) {
+  programName.textContent = program.name;
+  programType.textContent = program.type;
+  otherDetails.textContent = program["other-details"];
+  programTime.textContent = `${startTime} - ${endTime}`;
+}
 
-function displaySchedule(schedule, index) {
+function displaySchedule(scheduleArray, index) {
   const timeline = document.querySelector(`#channel-${index} .timeline`);
 
-  const scheduleArray = Object.entries(schedule);
+  scheduleArray.forEach(([startTime, program], index) => {
+    // Since the API does not provide data on whether the program is for adults or not, we generate a random value.
+    program.isAdult = Math.round(Math.random()) === 1 ? true : false;
 
-  for (const [startTime, program] of scheduleArray) {
     const timeSlotDiv = document.createElement("div");
     timeSlotDiv.className = "time-slot";
 
@@ -40,15 +70,40 @@ function displaySchedule(schedule, index) {
 
     const nameDiv = document.createElement("div");
     nameDiv.textContent = program.name;
+    nameDiv.className = "program-name";
+
+    if (program.isAdult) {
+      const isAdult = document.createElement("span");
+      isAdult.textContent = "18+";
+      isAdult.className = "adult";
+      nameDiv.appendChild(isAdult);
+    }
     programDiv.appendChild(nameDiv);
 
     const typeDiv = document.createElement("div");
     typeDiv.textContent = program.type;
     programDiv.appendChild(typeDiv);
 
+    programDiv.addEventListener("click", (e) => {
+      const [endTime, _] = scheduleArray[index + 1];
+
+      if (program.isAdult) {
+        const pin = prompt("Please enter the parent PIN to view this program.");
+        if (Number(pin) !== parentPIN) {
+          alert("Invalid PIN. Access denied.");
+          return;
+        }
+      }
+      if (currentProgramDetails) {
+        currentProgramDetails.style.border = "1px solid #ddd";
+      }
+      currentProgramDetails = e.currentTarget;
+      currentProgramDetails.style.border = "2px solid green";
+      setProgramDetails(program, startTime, endTime);
+    });
     timeSlotDiv.appendChild(programDiv);
     timeline.appendChild(timeSlotDiv);
-  }
+  });
 }
 
 function scrollToCurrentHours() {
@@ -147,7 +202,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const schedules = await Promise.all(channelSchedules);
 
   schedules.forEach((schedule, index) => {
-    displaySchedule(schedule, index + 1);
+    const scheduleArray = Object.entries(schedule);
+    displaySchedule(scheduleArray, index + 1);
   });
 
   hideLoading();
