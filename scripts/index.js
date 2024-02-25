@@ -51,42 +51,51 @@ function setProgramDetails(program, startTime, endTime) {
   programTime.textContent = `${startTime} - ${endTime}`;
 }
 
+function createProgramContainers(program, startTime) {
+  // Since the API does not provide data on whether the program is for adults or not, we generate a random value.
+  program.isAdult = Math.round(Math.random() - 0.2) === 1 ? true : false;
+
+  program.isRebroadcast = Math.round(Math.random() - 0.1) === 1 ? true : false;
+
+  const timeSlotDiv = document.createElement("div");
+  timeSlotDiv.className = "time-slot";
+
+  const timeDiv = document.createElement("div");
+  timeDiv.textContent = startTime;
+  timeSlotDiv.appendChild(timeDiv);
+
+  const programDiv = document.createElement("div");
+  programDiv.className = "program";
+
+  const nameDiv = document.createElement("div");
+  nameDiv.textContent = program.name;
+  nameDiv.className = "program-name";
+
+  if (program.isAdult) {
+    const isAdult = document.createElement("span");
+    isAdult.textContent = "18+";
+    isAdult.className = "adult";
+    nameDiv.appendChild(isAdult);
+  }
+  programDiv.appendChild(nameDiv);
+
+  const typeDiv = document.createElement("div");
+  typeDiv.textContent = program.type;
+  programDiv.appendChild(typeDiv);
+
+  return { timeSlotDiv, programDiv };
+}
+
 function displaySchedule(scheduleArray, index) {
   const timeline = document.querySelector(`#channel-${index} .timeline`);
 
   scheduleArray.forEach(([startTime, program], index) => {
-    // Since the API does not provide data on whether the program is for adults or not, we generate a random value.
-    program.isAdult = Math.round(Math.random()) === 1 ? true : false;
-
-    const timeSlotDiv = document.createElement("div");
-    timeSlotDiv.className = "time-slot";
-
-    const timeDiv = document.createElement("div");
-    timeDiv.textContent = startTime;
-    timeSlotDiv.appendChild(timeDiv);
-
-    const programDiv = document.createElement("div");
-    programDiv.className = "program";
-
-    const nameDiv = document.createElement("div");
-    nameDiv.textContent = program.name;
-    nameDiv.className = "program-name";
-
-    if (program.isAdult) {
-      const isAdult = document.createElement("span");
-      isAdult.textContent = "18+";
-      isAdult.className = "adult";
-      nameDiv.appendChild(isAdult);
-    }
-    programDiv.appendChild(nameDiv);
-
-    const typeDiv = document.createElement("div");
-    typeDiv.textContent = program.type;
-    programDiv.appendChild(typeDiv);
+    const { timeSlotDiv, programDiv } = createProgramContainers(
+      program,
+      startTime
+    );
 
     programDiv.addEventListener("click", (e) => {
-      const [endTime, _] = scheduleArray[index + 1];
-
       if (program.isAdult) {
         const pin = prompt("Please enter the parent PIN to view this program.");
         if (Number(pin) !== parentPIN) {
@@ -95,10 +104,17 @@ function displaySchedule(scheduleArray, index) {
         }
       }
       if (currentProgramDetails) {
-        currentProgramDetails.style.border = "1px solid #ddd";
+        currentProgramDetails.style.border = "2px solid #ddd";
       }
       currentProgramDetails = e.currentTarget;
       currentProgramDetails.style.border = "2px solid green";
+
+      let currentIndex = index + 1;
+      if (currentIndex > scheduleArray.length - 1) {
+        currentIndex = 0;
+      }
+      const [endTime, _] = scheduleArray[currentIndex];
+      console.log(program);
       setProgramDetails(program, startTime, endTime);
     });
     timeSlotDiv.appendChild(programDiv);
@@ -110,7 +126,7 @@ function scrollToCurrentHours() {
   const currentHour = new Date().getHours();
   const containerWidth = getProgramContainerWidth();
   scrollPos =
-    containerWidth * (currentHour === 0 ? currentHour : currentHour + 4);
+    containerWidth * (currentHour === 0 ? currentHour : currentHour + 3);
 
   timelinesContainer.scroll({ left: scrollPos, behavior: "smooth" });
   return currentHour;
