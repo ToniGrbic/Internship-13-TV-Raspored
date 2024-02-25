@@ -16,7 +16,7 @@ body {
   display: flex;
   max-width: 1400px;
   width: 100%;
-  margin-left: 3rem;
+  margin-left: 20px;
 }
 
 .tv-schedule {
@@ -62,7 +62,7 @@ body {
   border: 2px solid #ddd;
   padding: 8px;
   margin-top: 10px;
-  width: 20vw;
+  width: 22vw;
   text-wrap: wrap;
 }
 
@@ -83,7 +83,7 @@ body {
   z-index: 2;
   background-color: rgb(255, 255, 255);
   border-right: solid 1px #ddd;
-  padding-right: 1rem;
+  padding-right: 0.5rem;
   width: 140px;
   min-width: 70px;
   display: flex;
@@ -154,7 +154,8 @@ body {
 
 #program-channel {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
+  margin-right: 0.5rem;
 }
 
 #program-type {
@@ -163,4 +164,10 @@ body {
 
 #other-details {
   text-indent: 20px;
+}
+
+.filled-star {
+  background-color: #f1c30b;
+  border-radius: 50%;
+  margin-right: 2px;
 }
