@@ -20,7 +20,10 @@ const programName = programDetails.querySelector("#program-name");
 const programType = programDetails.querySelector("#program-type");
 const programTime = programDetails.querySelector("#program-time");
 const programRating = programDetails.querySelector("#program-rating");
+const userProgramRating = programDetails.querySelector("#user-program-rating");
 const programStarRating = programRating.querySelector(".stars-container");
+const userProgramStarRating =
+  userProgramRating.querySelector(".stars-container");
 const otherDetails = programDetails.querySelector("#other-details");
 
 let currentProgramDetails;
@@ -52,8 +55,8 @@ function createStarRating(container) {
     container.appendChild(star);
   }
 }
-
 createStarRating(programStarRating);
+createStarRating(userProgramStarRating);
 
 function setProgramDetails(program, startTime, endTime, channel) {
   programName.textContent = program.name;
@@ -73,6 +76,23 @@ function setProgramDetails(program, startTime, endTime, channel) {
   }
   removePreviousStarRating(programStarRating);
   fillStarRating(program.rating, programRating);
+
+  if (!program?.userRating) {
+    removePreviousStarRating(userProgramStarRating);
+  } else {
+    fillStarRating(program.userRating, userProgramRating);
+  }
+  userProgramRating.classList.remove("hidden");
+
+  const userRatingStars = userProgramStarRating.querySelectorAll("i");
+
+  userRatingStars.forEach((star, index) => {
+    star.addEventListener("click", () => {
+      removePreviousStarRating(userProgramStarRating);
+      program.userRating = index + 1;
+      fillStarRating(program.userRating, userProgramRating);
+    });
+  });
   programRating.classList.remove("hidden");
 }
 
@@ -81,6 +101,8 @@ function removePreviousStarRating(container) {
   stars.forEach((star) => {
     star.classList.remove("filled-star");
   });
+  const ratingExact = container.parentElement.querySelector("p.rating-exact");
+  ratingExact.textContent = "";
 }
 
 function fillStarRating(rating, container) {
