@@ -88,13 +88,13 @@ function createProgramContainers(program, startTime) {
   const programDiv = document.createElement("div");
   programDiv.className = "program";
 
-  const typeDiv = document.createElement("div");
-  typeDiv.textContent = program.type;
-  programDiv.appendChild(typeDiv);
-
   const nameDiv = document.createElement("div");
   nameDiv.textContent = program.name;
   nameDiv.className = "program-name";
+
+  const typeDiv = document.createElement("div");
+  typeDiv.textContent = program.type;
+  programDiv.appendChild(typeDiv);
 
   if (program.isAdult) {
     const isAdult = document.createElement("span");
