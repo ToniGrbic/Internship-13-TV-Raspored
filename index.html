@@ -11,11 +11,14 @@
     <link rel="stylesheet" href="./styles/main.css" />
   </head>
   <body>
+    <div class="main-content-container">
+
+    
     <div class="pagination">
       <img src="./assets/left-arrow.png" id="prev"></button>
       <img src="./assets/right-arrow.png" id="next"></button>
     </div>
-    <div id="content-wrapper">
+    <div id="schedule-wrapper">
       <div id="channels-container">
         <div id="channel-name-1" class="channel-name">
           <img
@@ -79,6 +82,7 @@
       </div>
       <span class="loader hidden"></span>
     </div>
+  </div>
     <div id="program-details">
       <h2 id="program-name"></h2>
       <p id="program-time"></p>
@@ -97,5 +101,10 @@
   </div>
   </body>
   <script src="./scripts/api.js" type="module"></script>
+  <script src="./scripts/input.js" type="module"></script>
+  <script src="./scripts/tvSchedule.js" type="module"></script>
+  <script src="./scripts/programDetails.js" type="module"></script>
   <script src="./scripts/index.js" type="module"></script>
 </html>
+
+
