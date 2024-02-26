@@ -24,7 +24,6 @@ function setProgramDetails(program, startTime, endTime, channel) {
     `;
 
   if (program.isAdult) programName.textContent += " (18+)";
-
   if (program.isRebroadcast) programType.textContent += " (Rebroadcast)";
 
   removePreviousStarRating(programStarRating);
@@ -38,23 +37,12 @@ function setProgramDetails(program, startTime, endTime, channel) {
   userProgramRating.classList.remove("hidden");
 
   if (watchListPrograms.has(program.name)) {
-    watchListButton.innerHTML = `
-        <span class="btn-sign">✓</span>Added
-      `;
-    watchListButton.classList.add("linear-gradient-purple");
-    watchListButton.classList.remove("linear-gradient-orange");
+    styleWachlistBtnAdded();
   } else {
-    watchListButton.innerHTML = `
-        <span class="btn-sign">+</span>Watchlist
-      `;
-    watchListButton.classList.remove("linear-gradient-purple");
-    watchListButton.classList.add("linear-gradient-orange");
+    styleWachlistBtnNotAdded();
   }
 
-  if (handleClick) {
-    watchListButton.removeEventListener("click", handleClick);
-  }
-
+  if (handleClick) watchListButton.removeEventListener("click", handleClick);
   handleClick = () => handleWatchlistBtnClick(program);
 
   watchListButton.addEventListener("click", handleClick);
@@ -80,19 +68,27 @@ function setProgramDetails(program, startTime, endTime, channel) {
 function handleWatchlistBtnClick(program) {
   if (watchListPrograms.has(program.name)) {
     watchListPrograms.delete(program.name);
-    watchListButton.innerHTML = `
-      <span class="btn-sign">+</span>Watchlist
-    `;
-    watchListButton.classList.remove("linear-gradient-purple");
-    watchListButton.classList.add("linear-gradient-orange");
+    styleWachlistBtnNotAdded();
   } else {
     watchListPrograms.add(program.name);
-    watchListButton.innerHTML = `
+    styleWachlistBtnAdded();
+  }
+}
+
+function styleWachlistBtnAdded() {
+  watchListButton.innerHTML = `
       <span class="btn-sign">✓</span>Added
     `;
-    watchListButton.classList.add("linear-gradient-purple");
-    watchListButton.classList.remove("linear-gradient-orange");
-  }
+  watchListButton.classList.add("linear-gradient-purple");
+  watchListButton.classList.remove("linear-gradient-orange");
+}
+
+function styleWachlistBtnNotAdded() {
+  watchListButton.innerHTML = `
+      <span class="btn-sign">+</span>Watchlist
+    `;
+  watchListButton.classList.remove("linear-gradient-purple");
+  watchListButton.classList.add("linear-gradient-orange");
 }
 
 function handleStarRatingClick(program, index) {
