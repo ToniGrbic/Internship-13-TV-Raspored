@@ -35,6 +35,7 @@ function setProgramDetails(program, startTime, endTime, channel) {
 
   watchListButton.classList.remove("hidden");
   userProgramRating.classList.remove("hidden");
+  programRating.classList.remove("hidden");
 
   if (watchListPrograms.has(program.name)) {
     styleWachlistBtnAdded();
@@ -46,6 +47,10 @@ function setProgramDetails(program, startTime, endTime, channel) {
   handleClick = () => handleWatchlistBtnClick(program);
 
   watchListButton.addEventListener("click", handleClick);
+  starsRatingEventListeners(program);
+}
+
+function starsRatingEventListeners(program) {
   const userRatingStars = userProgramStarRating.querySelectorAll("i");
 
   if (starOnClickListeners.length > 0) {
@@ -56,13 +61,10 @@ function setProgramDetails(program, startTime, endTime, channel) {
   }
 
   userRatingStars.forEach((star, index) => {
-    console.log(program.name);
     let handleStarClick = () => handleStarRatingClick(program, index);
-
     star.addEventListener("click", handleStarClick);
     starOnClickListeners.push(handleStarClick);
   });
-  programRating.classList.remove("hidden");
 }
 
 function handleWatchlistBtnClick(program) {
@@ -79,6 +81,8 @@ function styleWachlistBtnAdded() {
   watchListButton.innerHTML = `
       <span class="btn-sign">✓</span>Added
     `;
+  const btnSign = watchListButton.querySelector(".btn-sign");
+  btnSign.style.fontSize = "25px";
   watchListButton.classList.add("linear-gradient-purple");
   watchListButton.classList.remove("linear-gradient-orange");
 }
@@ -87,6 +91,8 @@ function styleWachlistBtnNotAdded() {
   watchListButton.innerHTML = `
       <span class="btn-sign">+</span>Watchlist
     `;
+  const btnSign = watchListButton.querySelector(".btn-sign");
+  btnSign.style.fontSize = "30px";
   watchListButton.classList.remove("linear-gradient-purple");
   watchListButton.classList.add("linear-gradient-orange");
 }
