@@ -24,4 +24,13 @@ function changeParentPIN() {
   setParentPIN("Please provide a new parent PIN. (4-8 digits)");
 }
 
-export { setParentPIN, changeParentPIN, parentPIN };
+function inputParentPIN() {
+  const pin = prompt("Please enter the parent PIN to view this program.");
+  if (Number(pin) !== parentPIN) {
+    alert("Incorrect PIN. Access denied.");
+    return false;
+  }
+  return true;
+}
+
+export { setParentPIN, changeParentPIN, inputParentPIN, parentPIN };

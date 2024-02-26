@@ -1,5 +1,5 @@
 import { setProgramDetails } from "./programDetails.js";
-import { parentPIN } from "./input.js";
+import { parentPIN, inputParentPIN } from "./input.js";
 let currentProgramDetails;
 
 function displaySchedule(scheduleArray, channelIndex, channel) {
@@ -33,14 +33,8 @@ function handleProgramClick(
   scheduleArray,
   { program, startTime, channel, index }
 ) {
-  if (program.isAdult) {
-    const pin = prompt("Please enter the parent PIN to view this program.");
-    console.log(parentPIN);
-    if (Number(pin) !== parentPIN) {
-      alert("Invalid PIN. Access denied.");
-      return;
-    }
-  }
+  if (program.isAdult && !inputParentPIN()) return;
+
   if (currentProgramDetails) {
     currentProgramDetails.style.border = "2px solid #ddd";
   }
