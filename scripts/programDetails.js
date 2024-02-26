@@ -9,9 +9,9 @@ const programStarRating = programRating.querySelector(".stars-container");
 const watchListButton = programDetails.querySelector(".btn-watchlist");
 const userProgramStarRating =
   userProgramRating.querySelector(".stars-container");
-const userRatingStars = userProgramStarRating.querySelectorAll("i");
-let handleClick;
 
+let handleClick;
+let starOnClickListeners = [];
 let watchListPrograms = new Set();
 
 function setProgramDetails(program, startTime, endTime, channel) {
@@ -30,16 +30,14 @@ function setProgramDetails(program, startTime, endTime, channel) {
   removePreviousStarRating(programStarRating);
   fillStarRating(program.rating, programRating);
 
-  if (!program?.userRating) {
-    removePreviousStarRating(userProgramStarRating);
-  } else {
+  removePreviousStarRating(userProgramStarRating);
+  if (program?.userRating)
     fillStarRating(program.userRating, userProgramRating);
-  }
+
   watchListButton.classList.remove("hidden");
   userProgramRating.classList.remove("hidden");
 
   if (watchListPrograms.has(program.name)) {
-    console.log(program.name);
     watchListButton.innerHTML = `
         <span class="btn-sign">✓</span>Added
       `;
@@ -60,13 +58,21 @@ function setProgramDetails(program, startTime, endTime, channel) {
   handleClick = () => handleWatchlistBtnClick(program);
 
   watchListButton.addEventListener("click", handleClick);
+  const userRatingStars = userProgramStarRating.querySelectorAll("i");
+
+  if (starOnClickListeners.length > 0) {
+    userRatingStars.forEach((listener, index) => {
+      listener.removeEventListener("click", starOnClickListeners[index]);
+    });
+    starOnClickListeners = [];
+  }
 
   userRatingStars.forEach((star, index) => {
-    star.addEventListener("click", () => {
-      removePreviousStarRating(userProgramStarRating);
-      program.userRating = index + 1;
-      fillStarRating(program.userRating, userProgramRating);
-    });
+    console.log(program.name);
+    let handleStarClick = () => handleStarRatingClick(program, index);
+
+    star.addEventListener("click", handleStarClick);
+    starOnClickListeners.push(handleStarClick);
   });
   programRating.classList.remove("hidden");
 }
@@ -87,8 +93,13 @@ function handleWatchlistBtnClick(program) {
     watchListButton.classList.add("linear-gradient-purple");
     watchListButton.classList.remove("linear-gradient-orange");
   }
+}
 
-  console.log(watchListPrograms);
+function handleStarRatingClick(program, index) {
+  console.log("clicked");
+  removePreviousStarRating(userProgramStarRating);
+  program.userRating = index + 1;
+  fillStarRating(program.userRating, userProgramRating);
 }
 
 function createStarRating(container) {
