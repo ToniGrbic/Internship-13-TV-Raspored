@@ -6,8 +6,13 @@ const programRating = programDetails.querySelector("#program-rating");
 const otherDetails = programDetails.querySelector("#other-details");
 const userProgramRating = programDetails.querySelector("#user-program-rating");
 const programStarRating = programRating.querySelector(".stars-container");
+const watchListButton = programDetails.querySelector(".btn-watchlist");
 const userProgramStarRating =
   userProgramRating.querySelector(".stars-container");
+const userRatingStars = userProgramStarRating.querySelectorAll("i");
+let handleClick;
+
+let watchListPrograms = new Set();
 
 function setProgramDetails(program, startTime, endTime, channel) {
   programName.textContent = program.name;
@@ -18,13 +23,10 @@ function setProgramDetails(program, startTime, endTime, channel) {
       ${startTime} - ${endTime}
     `;
 
-  if (program.isAdult) {
-    programName.textContent += " (18+)";
-  }
+  if (program.isAdult) programName.textContent += " (18+)";
 
-  if (program.isRebroadcast) {
-    programType.textContent += " (Rebroadcast)";
-  }
+  if (program.isRebroadcast) programType.textContent += " (Rebroadcast)";
+
   removePreviousStarRating(programStarRating);
   fillStarRating(program.rating, programRating);
 
@@ -33,19 +35,60 @@ function setProgramDetails(program, startTime, endTime, channel) {
   } else {
     fillStarRating(program.userRating, userProgramRating);
   }
+  watchListButton.classList.remove("hidden");
   userProgramRating.classList.remove("hidden");
 
-  const userRatingStars = userProgramStarRating.querySelectorAll("i");
+  if (watchListPrograms.has(program.name)) {
+    console.log(program.name);
+    watchListButton.innerHTML = `
+        <span class="btn-sign">✓</span>Added
+      `;
+    watchListButton.classList.add("linear-gradient-purple");
+    watchListButton.classList.remove("linear-gradient-orange");
+  } else {
+    watchListButton.innerHTML = `
+        <span class="btn-sign">+</span>Watchlist
+      `;
+    watchListButton.classList.remove("linear-gradient-purple");
+    watchListButton.classList.add("linear-gradient-orange");
+  }
+
+  if (handleClick) {
+    watchListButton.removeEventListener("click", handleClick);
+  }
+
+  handleClick = () => handleWatchlistBtnClick(program);
+
+  watchListButton.addEventListener("click", handleClick);
 
   userRatingStars.forEach((star, index) => {
     star.addEventListener("click", () => {
       removePreviousStarRating(userProgramStarRating);
       program.userRating = index + 1;
-      console.log(program.userRating);
       fillStarRating(program.userRating, userProgramRating);
     });
   });
   programRating.classList.remove("hidden");
+}
+
+function handleWatchlistBtnClick(program) {
+  if (watchListPrograms.has(program.name)) {
+    watchListPrograms.delete(program.name);
+    watchListButton.innerHTML = `
+      <span class="btn-sign">+</span>Watchlist
+    `;
+    watchListButton.classList.remove("linear-gradient-purple");
+    watchListButton.classList.add("linear-gradient-orange");
+  } else {
+    watchListPrograms.add(program.name);
+    watchListButton.innerHTML = `
+      <span class="btn-sign">✓</span>Added
+    `;
+    watchListButton.classList.add("linear-gradient-purple");
+    watchListButton.classList.remove("linear-gradient-orange");
+  }
+
+  console.log(watchListPrograms);
 }
 
 function createStarRating(container) {
