@@ -1,5 +1,5 @@
 import { setProgramDetails } from "./programDetails.js";
-import { parentPIN, inputParentPIN } from "./input.js";
+import { inputParentPIN } from "./input.js";
 let currentProgramDetails;
 
 function displaySchedule(scheduleArray, channelIndex, channel) {
@@ -8,6 +8,7 @@ function displaySchedule(scheduleArray, channelIndex, channel) {
   scheduleArray.forEach(([startTime, program], index) => {
     // remove seconds from the time
     startTime = startTime.slice(0, -3);
+
     const { timeSlotDiv, programDiv } = createProgramContainers(
       program,
       startTime
@@ -28,11 +29,9 @@ function displaySchedule(scheduleArray, channelIndex, channel) {
   });
 }
 
-function handleProgramClick(
-  e,
-  scheduleArray,
-  { program, startTime, channel, index }
-) {
+function handleProgramClick(e, scheduleArray, programDetails) {
+  const { program, startTime, channel, index } = programDetails;
+
   if (program.isAdult && !inputParentPIN()) return;
 
   if (currentProgramDetails) {
@@ -41,6 +40,7 @@ function handleProgramClick(
   currentProgramDetails = e.currentTarget;
   currentProgramDetails.style.border = "2px solid green";
 
+  // get the programs end time
   let currentIndex = index + 1;
   if (currentIndex > scheduleArray.length - 1) {
     currentIndex = 0;
@@ -59,7 +59,7 @@ function styleLivePrograms(timelines, currentHour) {
         program.previousElementSibling.textContent.split(":")[0];
 
       if (programTime == currentHour) {
-        program.style.backgroundColor = "green";
+        program.classList.add("linear-gradient-orange");
         program.style.color = "white";
         break;
       }
