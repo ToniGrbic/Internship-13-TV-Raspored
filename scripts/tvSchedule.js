@@ -75,8 +75,6 @@ function createProgramContainers(program, startTime) {
   program.rating = Math.floor(Math.random() * 5) + 1;
   program.userRating = null;
 
-  if (program.isRebroadcast) program.name += " (R)";
-
   const ratingDiv = document.createElement("div");
   ratingDiv.textContent = `Rating: ${program.rating} / 5`;
 
