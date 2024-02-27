@@ -65,7 +65,6 @@ function hideLoading() {
 
 function setTVSchedulesToDefaultHTML() {
   timelinesContainer.innerHTML = `
-    <div id="timelines-container">
     <div id="channel-1" class="tv-schedule">
       <div class="timeline">
       </div>
@@ -82,7 +81,6 @@ function setTVSchedulesToDefaultHTML() {
       <div class="timeline">
       </div>
     </div>
-  </div>
   `;
 }
 
@@ -94,9 +92,9 @@ filterApplyButton.addEventListener("click", () => {
   filteredSchedules.forEach((schedule, index) => {
     displaySchedule(schedule, index + 1, channels[index]);
   });
-  setTimeout(() => {
-    scrollToCurrentHours();
-  }, 500);
+  const currentHour = scrollToCurrentHours();
+  const timelines = document.querySelectorAll(`.timeline`);
+  styleLivePrograms(timelines, currentHour);
 });
 
 prevButton.addEventListener("click", () => {
