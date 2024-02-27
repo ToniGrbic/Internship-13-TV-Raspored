@@ -16,8 +16,9 @@ body {
   );
 }
 
+a,
 button,
-a {
+.filter-icon {
   cursor: pointer;
 }
 
@@ -28,7 +29,7 @@ a {
 
 #schedule-wrapper {
   display: flex;
-  max-width: 1400px;
+  max-width: 1600px;
   width: 100%;
   margin-left: 20px;
 }
@@ -48,9 +49,15 @@ a {
   padding-left: 12rem;
 }
 
+@media (max-width: 768px) {
+  .pagination {
+    padding-left: 8rem;
+  }
+}
+
 #timelines-container {
   overflow-x: scroll;
-  width: 80%;
+  width: 100%;
   padding-left: 1rem;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -120,11 +127,13 @@ a {
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
   position: absolute;
-  top: 80px;
+  top: 100px;
   right: 20px;
 }
 
-.hidden {
+div.hidden,
+button.hidden,
+span.hidden {
   display: none;
 }
 
@@ -207,4 +216,65 @@ button.linear-gradient-purple {
   margin-right: 10px;
   font-size: 30px;
   vertical-align: sub;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 2rem;
+}
+
+.settings-container {
+  display: flex;
+}
+
+.filter-container {
+  display: flex;
+}
+
+.filter-dropdown {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  top: 36px;
+  right: 14px;
+  background-color: #e0e0e0;
+  padding: 0.5rem 1rem 1rem 1rem;
+  border-radius: 5px;
+  z-index: 3;
+}
+
+.filter-dropdown::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid #e0e0e0;
+}
+
+#filter-btn-apply {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #ff7200;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#rating-value-min {
+  margin-right: 4px;
+}
+
+.filter-categories {
+  margin-bottom: 0.5rem;
+}
+
+#filter-watchlist {
+  vertical-align: middle;
 }

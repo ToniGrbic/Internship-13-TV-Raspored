@@ -141,4 +141,5 @@ export {
   createStarRating,
   removePreviousStarRating,
   fillStarRating,
+  watchListPrograms,
 };

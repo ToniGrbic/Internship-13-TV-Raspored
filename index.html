@@ -11,6 +11,66 @@
     <link rel="stylesheet" href="./styles/main.css" />
   </head>
   <body>
+
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <img src="" alt="Logo" />
+        </div>
+        <div class="settings-container">
+          <div class="filter-container">
+            <div class="filter-icon">
+              <img src="./assets/filter-control-icon.svg" height="35px" width="35px">
+            </div>
+            <div class="filter-dropdown hidden">
+              <p>Select filter options:</p>
+              <div class="filter-watchlist">
+              <label for="filter-watchlist">Watchlist:</label>
+              <input type="checkbox" id="filter-watchlist" />
+            </div>
+              <div class="filter-categories">
+              <p>Categories:</p>
+                <div class="filter-option">
+                  <input type="checkbox" id="filter-all" checked/>
+                  <label for="filter-all">All</label>
+                </div>
+              <div class="filter-option">
+                <input type="checkbox" id="filter-sport" />
+                <label for="filter-sport">Sport</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="filter-news" />
+                <label for="filter-news">News</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="filter-tvshow" />
+                <label for="filter-tvshow">TV Show</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="filter-documentary" />
+                <label for="filter-documentary">Documentary</label>
+              </div>
+            </div>
+            
+            <div class="filter-rating">
+              <p>Rating:</p>
+              <div>
+
+                <label for="rating-range-min">Min: <span id="rating-value-min">1</span></label>
+                <input type="range" id="rating-range-min" min="1" max="5" value="1" />
+              </div>
+              <div>
+                <label for="rating-range-max">Max: <span id="rating-value-max">5</span></label>
+                <input type="range" id="rating-range-max" min="1" max="5" value="5" />
+              </div>
+              </div>
+              <button id="filter-btn-apply">Apply</button>
+            </div>
+          </div>
+        </div>
+      </nav>
+        
+    </header>
     <div class="main-content-container">
 
     
@@ -104,6 +164,7 @@
   </body>
   <script src="./scripts/api.js" type="module"></script>
   <script src="./scripts/input.js" type="module"></script>
+  <script src="./scripts/settings.js" type="module"></script>
   <script src="./scripts/tvSchedule.js" type="module"></script>
   <script src="./scripts/programDetails.js" type="module"></script>
   <script src="./scripts/index.js" type="module"></script>

@@ -2,6 +2,7 @@ import { getChannelSchedule } from "./api.js";
 import { createStarRating } from "./programDetails.js";
 import { displaySchedule, styleLivePrograms } from "./tvSchedule.js";
 import { setParentPIN, getParentPIN } from "./input.js";
+import { filterSchedules } from "./settings.js";
 
 const channels = [
   "Sony Six HD",
@@ -10,6 +11,8 @@ const channels = [
   "Discovery HD World",
 ];
 
+const filterApplyButton = document.querySelector("#filter-btn-apply");
+const filterDropdown = document.querySelector(".filter-dropdown");
 const timelinesContainer = document.querySelector("#timelines-container");
 const prevButton = document.getElementById("prev");
 const nextButton = document.getElementById("next");
@@ -29,6 +32,7 @@ const userProgramStarRating =
 createStarRating(programStarRating);
 createStarRating(userProgramStarRating);
 
+let schedulesArray = [];
 let scrollPos = 0;
 let boxScrollPct = 0;
 let ignoreScroll = false;
@@ -58,6 +62,42 @@ function hideLoading() {
   loader.classList.remove("show");
   loader.classList.add("hidden");
 }
+
+function setTVSchedulesToDefaultHTML() {
+  timelinesContainer.innerHTML = `
+    <div id="timelines-container">
+    <div id="channel-1" class="tv-schedule">
+      <div class="timeline">
+      </div>
+    </div>
+    <div id="channel-2" class="tv-schedule">
+      <div class="timeline">
+      </div>
+    </div>
+    <div id="channel-3" class="tv-schedule">
+      <div class="timeline">
+      </div>
+    </div>
+    <div id="channel-4" class="tv-schedule">
+      <div class="timeline">
+      </div>
+    </div>
+  </div>
+  `;
+}
+
+filterApplyButton.addEventListener("click", () => {
+  filterDropdown.classList.add("hidden");
+  const filteredSchedules = filterSchedules(schedulesArray);
+  setTVSchedulesToDefaultHTML();
+
+  filteredSchedules.forEach((schedule, index) => {
+    displaySchedule(schedule, index + 1, channels[index]);
+  });
+  setTimeout(() => {
+    scrollToCurrentHours();
+  }, 500);
+});
 
 prevButton.addEventListener("click", () => {
   const containerWidth = getProgramContainerWidth();
@@ -115,18 +155,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   schedules.forEach((schedule, index) => {
     const scheduleArray = Object.entries(schedule);
     displaySchedule(scheduleArray, index + 1, channels[index]);
+    schedulesArray.push(scheduleArray);
   });
+  const currentHour = scrollToCurrentHours();
   hideLoading();
 
-  const currentHour = scrollToCurrentHours();
   const timelines = document.querySelectorAll(`.timeline`);
   styleLivePrograms(timelines, currentHour);
 
-  if (!getParentPIN()) {
-    setTimeout(() => {
-      setParentPIN(
-        "Welcome to TV Schedule! Please provide a parent PIN. (4-8 digits)"
-      );
-    }, 300);
-  }
+  if (getParentPIN()) return;
+
+  setTimeout(() => {
+    setParentPIN(
+      "Welcome to TV Schedule! Please provide a parent PIN. (4-8 digits)"
+    );
+  }, 300);
 });
