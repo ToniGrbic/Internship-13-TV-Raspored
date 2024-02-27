@@ -12,6 +12,7 @@ function setParentPIN(message) {
   } else {
     alert("Parent PIN set successfully.");
     parentPIN = newParentPIN;
+    localStorage.setItem("parentPIN", parentPIN);
   }
 }
 
@@ -33,4 +34,14 @@ function inputParentPIN() {
   return true;
 }
 
-export { setParentPIN, changeParentPIN, inputParentPIN, parentPIN };
+function getParentPIN() {
+  return localStorage.getItem("parentPIN");
+}
+
+export {
+  setParentPIN,
+  changeParentPIN,
+  inputParentPIN,
+  getParentPIN,
+  parentPIN,
+};

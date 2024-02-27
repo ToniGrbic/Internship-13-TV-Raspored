@@ -1,7 +1,7 @@
 import { getChannelSchedule } from "./api.js";
 import { createStarRating } from "./programDetails.js";
 import { displaySchedule, styleLivePrograms } from "./tvSchedule.js";
-import { setParentPIN } from "./input.js";
+import { setParentPIN, getParentPIN } from "./input.js";
 
 const channels = [
   "Sony Six HD",
@@ -122,9 +122,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const timelines = document.querySelectorAll(`.timeline`);
   styleLivePrograms(timelines, currentHour);
 
-  setTimeout(() => {
-    setParentPIN(
-      "Welcome to TV Schedule! Please provide a parent PIN. (4-8 digits)"
-    );
-  }, 300);
+  if (!getParentPIN()) {
+    setTimeout(() => {
+      setParentPIN(
+        "Welcome to TV Schedule! Please provide a parent PIN. (4-8 digits)"
+      );
+    }, 300);
+  }
 });
