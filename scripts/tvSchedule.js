@@ -92,18 +92,17 @@ function createProgramContainers(program, startTime) {
   nameDiv.textContent = program.name;
   nameDiv.className = "program-name";
 
-  const typeDiv = document.createElement("div");
-  typeDiv.textContent = program.type;
-  programDiv.appendChild(typeDiv);
-
   if (program.isAdult) {
     const isAdult = document.createElement("span");
     isAdult.textContent = "18+";
     isAdult.className = "adult";
     nameDiv.appendChild(isAdult);
   }
-
   programDiv.appendChild(nameDiv);
+
+  const typeDiv = document.createElement("div");
+  typeDiv.textContent = program.type;
+  programDiv.appendChild(typeDiv);
 
   return { timeSlotDiv, programDiv };
 }
