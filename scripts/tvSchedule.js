@@ -1,6 +1,10 @@
 import { setProgramDetails } from "./programDetails.js";
 import { inputParentPIN } from "./input.js";
+
 let currentProgramDetails;
+let programRatings = new Map();
+let areProgramsAdult = new Map();
+let areProgramsRebroadcast = new Map();
 
 function displaySchedule(scheduleArray, channelIndex, channel) {
   const timeline = document.querySelector(`#channel-${channelIndex} .timeline`);
@@ -8,7 +12,8 @@ function displaySchedule(scheduleArray, channelIndex, channel) {
   scheduleArray.forEach(([startTime, program], index) => {
     // remove seconds from the time
     startTime = startTime.slice(0, -3);
-
+    // Since the API does not provide some data, we generate random values.
+    setMissingProgramProperties(program);
     const { timeSlotDiv, programDiv } = createProgramContainers(
       program,
       startTime
@@ -67,14 +72,47 @@ function styleLivePrograms(timelines, currentHour) {
   });
 }
 
-function createProgramContainers(program, startTime) {
-  // Since the API does not provide data on whether the program is for adults or not, we generate a random value.
-  program.isAdult = Math.round(Math.random() - 0.3) === 1 ? true : false;
-  // same as for the isAdult propery
-  program.isRebroadcast = Math.round(Math.random() - 0.1) === 1 ? true : false;
-  program.rating = Math.floor(Math.random() * 5) + 1;
-  program.userRating = null;
+function checkMapValueExists(map, key) {
+  return map.get(key) !== undefined;
+}
 
+function setIsAdult() {
+  return Math.round(Math.random() - 0.3) === 1 ? true : false;
+}
+
+function setRating() {
+  return Math.floor(Math.random() * 5) + 1;
+}
+
+function setIsRebroadcast() {
+  return Math.round(Math.random() - 0.1) === 1 ? true : false;
+}
+
+function setMissingProgramProperties(program) {
+  if (checkMapValueExists(programRatings, program.name))
+    program.rating = programRatings.get(program.name);
+  else {
+    program.rating = setRating();
+    programRatings.set(program.name, program.rating);
+  }
+
+  if (checkMapValueExists(areProgramsRebroadcast, program.name))
+    program.isRebroadcast = areProgramsRebroadcast.get(program.name);
+  else {
+    program.isRebroadcast = setIsRebroadcast();
+    areProgramsRebroadcast.set(program.name, program.isRebroadcast);
+  }
+
+  if (checkMapValueExists(areProgramsAdult, program.name))
+    program.isAdult = areProgramsAdult.get(program.name);
+  else {
+    program.isAdult = setIsAdult();
+    areProgramsAdult.set(program.name, program.isAdult);
+  }
+  program.userRating = null;
+}
+
+function createProgramContainers(program, startTime) {
   const ratingDiv = document.createElement("div");
   ratingDiv.textContent = `Rating: ${program.rating} / 5`;
 
