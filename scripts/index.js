@@ -40,6 +40,7 @@ let timeOutId = null;
 
 function getProgramContainerWidth() {
   const programContainer = timelinesContainer.querySelector(".time-slot");
+  if (!programContainer) return 0;
   return programContainer.offsetWidth + 15;
 }
 
