@@ -18,16 +18,19 @@
           <img src="" alt="Logo" />
         </div>
         <div class="settings-container">
+          <div class="settings-icon">
+            <img src="./assets/settings.png" height="25px" width="25px">
+          </div>
           <div class="filter-container">
             <div class="filter-icon">
-              <img src="./assets/filter-control-icon.svg" height="35px" width="35px">
+              <img src="./assets/filter-control-icon.svg" height="40px" width="40px">
             </div>
-            <div class="filter-dropdown hidden">
+            <div class="dropdown hidden" id="filter-dropdown">
               <p>Select filter options:</p>
               <div class="filter-watchlist-container">
-              <label for="filter-watchlist">Watchlist:</label>
-              <input type="checkbox" id="filter-watchlist" />
-            </div>
+                <label for="filter-watchlist">Watchlist:</label>
+                <input type="checkbox" id="filter-watchlist" />
+              </div>
               <div class="filter-categories">
               <p>Categories:</p>
                 <div class="filter-option">
@@ -51,11 +54,9 @@
                 <label for="filter-documentary">Documentary</label>
               </div>
             </div>
-            
             <div class="filter-rating">
               <p>Rating:</p>
               <div>
-
                 <label for="rating-range-min">Min: <span id="rating-value-min">1</span></label>
                 <input type="range" id="rating-range-min" min="1" max="5" value="1" />
               </div>
@@ -64,9 +65,12 @@
                 <input type="range" id="rating-range-max" min="1" max="5" value="5" />
               </div>
               </div>
-              <button id="filter-btn-apply">Apply</button>
+              <button class="settings-btn" id="filter-btn-apply">Apply</button>
             </div>
           </div>
+          <div class="dropdown hidden" id="settings-dropdown">
+            <p>Settings:</p>
+            <button class="settings-btn" id="change-pin-btn">Change PIN</button>
         </div>
       </nav>
         

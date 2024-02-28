@@ -1,12 +1,3 @@
-body {
-  display: flex;
-  flex-direction: column;
-  /* align-items: center; */
-  margin: 0 auto;
-  overflow-x: hidden;
-  font-family: "Roboto", sans-serif;
-}
-
 :root {
   --linear-gradient-orange: linear-gradient(90deg, #d82b4e, #ff7200);
   --linear-gradient-purple: linear-gradient(
@@ -15,14 +6,19 @@ body {
     rgb(10, 108, 255)
   );
 }
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  overflow-x: hidden;
+  font-family: "Roboto", sans-serif;
+}
 
 a,
 i,
 button,
-.filter-icon {
-  cursor: pointer;
-}
-
+.filter-icon,
+.settings-icon,
 #prev,
 #next {
   cursor: pointer;
@@ -46,7 +42,7 @@ button,
   width: 60%;
   max-width: 1000px;
   margin-bottom: 2rem;
-  margin-top: 2rem;
+  margin-top: 0.5rem;
   padding-left: 12rem;
 }
 
@@ -84,10 +80,15 @@ button,
   border: 2px solid #ddd;
   padding: 8px;
   margin-top: 10px;
-  width: 22vw;
+  width: 24vw;
   text-wrap: wrap;
+  padding-right: 1rem;
 }
-
+@media (max-width: 468px) {
+  .program {
+    padding-right: 1rem;
+  }
+}
 .adult {
   position: absolute;
   bottom: 4px;
@@ -128,7 +129,7 @@ button,
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
   position: absolute;
-  top: 100px;
+  top: 110px;
   right: 20px;
 }
 
@@ -174,6 +175,7 @@ span.hidden {
 
 #program-name {
   font-weight: bold;
+  margin-top: 0;
 }
 
 #program-channel {
@@ -227,18 +229,21 @@ button.linear-gradient-purple {
 
 .settings-container {
   display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  gap: 1rem;
 }
 
 .filter-container {
   display: flex;
 }
 
-.filter-dropdown {
+.dropdown {
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: absolute;
-  top: 36px;
+  top: 40px;
   right: 14px;
   background-color: #e0e0e0;
   padding: 0.5rem 1rem 1rem 1rem;
@@ -246,11 +251,11 @@ button.linear-gradient-purple {
   z-index: 3;
 }
 
-.filter-dropdown::before {
+#filter-dropdown::before {
   content: "";
   position: absolute;
   top: -10px;
-  right: 20px;
+  right: 63px;
   width: 0;
   height: 0;
   border-left: 15px solid transparent;
@@ -259,13 +264,27 @@ button.linear-gradient-purple {
 }
 
 #filter-btn-apply {
-  margin-top: 10px;
-  padding: 5px 10px;
+  margin-top: 0.5rem;
+}
+
+#settings-dropdown::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: 16px;
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid #e0e0e0;
+}
+
+.settings-btn {
   background-color: #ff7200;
   color: white;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
+  padding: 5px 10px;
 }
 
 #rating-value-min {
