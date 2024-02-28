@@ -11,7 +11,7 @@ const filterSport = document.querySelector("#filter-sport");
 const filterNews = document.querySelector("#filter-news");
 const filterTVshow = document.querySelector("#filter-tvshow");
 const filterDocumentary = document.querySelector("#filter-documentary");
-const filterWatchlist = document.querySelector("#filter-watchlist");
+
 const filterAll = document.querySelector("#filter-all");
 
 const categoryFilters = [
@@ -39,10 +39,6 @@ filterAll.oninput = () => {
   }
 };
 
-filterContainerIcon.addEventListener("click", () => {
-  filterDropdown.classList.toggle("hidden");
-});
-
 ratingRangeMin.oninput = () => {
   ratingRangeValueMin.textContent = ratingRangeMin.value;
 };
@@ -51,33 +47,49 @@ ratingRangeMax.oninput = () => {
   ratingRangeValueMax.textContent = ratingRangeMax.value;
 };
 
+filterContainerIcon.addEventListener("click", () => {
+  filterDropdown.classList.toggle("hidden");
+});
+
 function filterSchedules(schedules) {
   const filteredSchedules = [];
   for (const schedule of schedules) {
-    const filteredSchedule = schedule.filter(([_, program]) =>
-      filterCategories(program)
-    );
-    /*  .filter(
-        ([_, program]) =>
-          filterWatchlist.checked && watchListPrograms.has(program.name)
-      ); */
+    const filteredSchedule = schedule
+      .filter(([_, program]) => filterByCategories(program))
+      .filter(([_, program]) => filterByWachlist(program))
+      .filter(([_, program]) => filterByRating(program));
     filteredSchedules.push(filteredSchedule);
   }
   console.log(filteredSchedules);
   return filteredSchedules;
 }
 
-function filterCategories(program) {
-  /* const containsCategory = categoryFilters.some((category) => {
-    const categoryName = category.nextElementSibling.textContent;
-    return category.checked && program.type === categoryName;
-  });
-  return containsCategory; */
+function filterByCategories(program) {
   if (filterSport.checked && program.type === "Sport") return true;
   if (filterNews.checked && program.type === "News") return true;
   if (filterTVshow.checked && program.type === "TV Show") return true;
   if (filterDocumentary.checked && program.type === "Documentary") return true;
   return false;
+
+  // dynamic approach, needs to be debugged
+  /* const containsCategory = categoryFilters.some((category) => {
+    const categoryName = category.nextElementSibling.textContent;
+    return category.checked && program.type === categoryName;
+  });
+  return containsCategory; */
+}
+
+function filterByWachlist(program) {
+  const filterWatchlist = document.querySelector("#filter-watchlist");
+  if (!filterWatchlist.checked) return true;
+  return watchListPrograms.has(program.name);
+}
+
+function filterByRating(program) {
+  return (
+    program.rating >= Number(ratingRangeMin.value) &&
+    program.rating <= Number(ratingRangeMax.value)
+  );
 }
 
 export { filterSchedules };
