@@ -38,6 +38,10 @@ function getParentPIN() {
   return localStorage.getItem("parentPIN");
 }
 
+window.addEventListener("DOMContentLoaded", () => {
+  parentPIN = Number(getParentPIN());
+});
+
 export {
   setParentPIN,
   changeParentPIN,
