@@ -1,6 +1,3 @@
-/* const url =
-  "https://indian-tv-schedule.p.rapidapi.com/Schedule?channel=Sony%20Six%20HD"; */
-
 const baseUrl = "https://indian-tv-schedule.p.rapidapi.com";
 const options = {
   method: "GET",
