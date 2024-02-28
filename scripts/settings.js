@@ -1,18 +1,22 @@
 import { watchListPrograms } from "./programDetails.js";
+import { changeParentPIN } from "./input.js";
 
 const ratingRangeMin = document.querySelector("#rating-range-min");
 const ratingRangeMax = document.querySelector("#rating-range-max");
 const ratingRangeValueMin = document.querySelector("#rating-value-min");
 const ratingRangeValueMax = document.querySelector("#rating-value-max");
-const filterContainerIcon = document.querySelector(".filter-icon img");
-const filterDropdown = document.querySelector(".filter-dropdown");
 
+const filterAll = document.querySelector("#filter-all");
 const filterSport = document.querySelector("#filter-sport");
 const filterNews = document.querySelector("#filter-news");
 const filterTVshow = document.querySelector("#filter-tvshow");
 const filterDocumentary = document.querySelector("#filter-documentary");
 
-const filterAll = document.querySelector("#filter-all");
+const filterContainerIcon = document.querySelector(".filter-icon img");
+const filterDropdown = document.querySelector("#filter-dropdown");
+const settingsContainerIcon = document.querySelector(".settings-icon img");
+const settingsDropdown = document.querySelector("#settings-dropdown");
+const changePINBtn = document.querySelector("#change-pin-btn");
 
 const categoryFilters = [
   filterSport,
@@ -48,7 +52,19 @@ ratingRangeMax.oninput = () => {
 };
 
 filterContainerIcon.addEventListener("click", () => {
+  if (!settingsDropdown.classList.contains("hidden"))
+    settingsDropdown.classList.add("hidden");
   filterDropdown.classList.toggle("hidden");
+});
+
+settingsContainerIcon.addEventListener("click", () => {
+  if (!filterDropdown.classList.contains("hidden"))
+    filterDropdown.classList.add("hidden");
+  settingsDropdown.classList.toggle("hidden");
+});
+
+changePINBtn.addEventListener("click", () => {
+  changeParentPIN();
 });
 
 function filterSchedules(schedules) {
