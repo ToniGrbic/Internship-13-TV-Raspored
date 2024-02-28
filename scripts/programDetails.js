@@ -13,6 +13,7 @@ const userProgramStarRating =
 let handleClick;
 let starOnClickListeners = [];
 let watchListPrograms = new Set();
+let userRatings = new Map();
 
 function setProgramDetails(program, startTime, endTime, channel) {
   programName.textContent = program.name;
@@ -53,6 +54,7 @@ function setProgramDetails(program, startTime, endTime, channel) {
 function starsRatingEventListeners(program) {
   const userRatingStars = userProgramStarRating.querySelectorAll("i");
 
+  // Remove previous event listeners
   if (starOnClickListeners.length > 0) {
     userRatingStars.forEach((listener, index) => {
       listener.removeEventListener("click", starOnClickListeners[index]);
@@ -60,6 +62,7 @@ function starsRatingEventListeners(program) {
     starOnClickListeners = [];
   }
 
+  // Add new event listeners
   userRatingStars.forEach((star, index) => {
     let handleStarClick = () => handleStarRatingClick(program, index);
     star.addEventListener("click", handleStarClick);
@@ -98,9 +101,9 @@ function styleWachlistBtnNotAdded() {
 }
 
 function handleStarRatingClick(program, index) {
-  console.log("clicked");
   removePreviousStarRating(userProgramStarRating);
   program.userRating = index + 1;
+  userRatings.set(program.name, index + 1);
   fillStarRating(program.userRating, userProgramRating);
 }
 
