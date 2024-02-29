@@ -7,7 +7,7 @@ import { filterSchedules } from "./settings.js";
 const channels = [
   "Sony Six HD",
   "CNN NEWS 18",
-  "Republic TV",
+  "Times NOW",
   "Discovery HD World",
 ];
 
