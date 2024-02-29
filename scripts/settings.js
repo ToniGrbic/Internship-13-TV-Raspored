@@ -76,7 +76,6 @@ function filterSchedules(schedules) {
       .filter(([_, program]) => filterByRating(program));
     filteredSchedules.push(filteredSchedule);
   }
-  console.log(filteredSchedules);
   return filteredSchedules;
 }
 
