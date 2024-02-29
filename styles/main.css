@@ -82,7 +82,6 @@ button,
   margin-top: 10px;
   width: 24vw;
   text-wrap: wrap;
-  padding-right: 1rem;
 }
 @media (max-width: 468px) {
   .program {
