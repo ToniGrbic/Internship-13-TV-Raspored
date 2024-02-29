@@ -243,7 +243,7 @@ button.linear-gradient-purple {
   flex-direction: column;
   justify-content: center;
   position: absolute;
-  top: 40px;
+  top: 65px;
   right: 14px;
   background-color: #e0e0e0;
   padding: 0.5rem 1rem 1rem 1rem;
@@ -263,10 +263,6 @@ button.linear-gradient-purple {
   border-bottom: 15px solid #e0e0e0;
 }
 
-#filter-btn-apply {
-  margin-top: 0.5rem;
-}
-
 #settings-dropdown::before {
   content: "";
   position: absolute;
@@ -277,6 +273,10 @@ button.linear-gradient-purple {
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
   border-bottom: 15px solid #e0e0e0;
+}
+
+#filter-btn-apply {
+  margin-top: 0.5rem;
 }
 
 .settings-btn {
