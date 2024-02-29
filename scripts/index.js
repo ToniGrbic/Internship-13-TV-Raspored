@@ -46,18 +46,26 @@ channelNames.forEach((channel, index) => {
 document.addEventListener("DOMContentLoaded", async () => {
   let channelSchedules = [];
 
-  for (const channel of channels) {
-    channelSchedules.push(getChannelSchedule(channel));
-  }
-
   showLoading();
-  const schedules = await Promise.all(channelSchedules);
+  try {
+    for (const channel of channels) {
+      channelSchedules.push(getChannelSchedule(channel));
+    }
+    const schedules = await Promise.all(channelSchedules);
 
-  schedules.forEach((schedule, index) => {
-    const scheduleArray = Object.entries(schedule);
-    displaySchedule(scheduleArray, index + 1, channels[index]);
-    schedulesArray.push(scheduleArray);
-  });
+    schedules.forEach((schedule, index) => {
+      const scheduleArray = Object.entries(schedule);
+      displaySchedule(scheduleArray, index + 1, channels[index]);
+      schedulesArray.push(scheduleArray);
+    });
+  } catch (error) {
+    const retry = confirm(
+      "Failed to fetch TV schedules. Click OK to try again."
+    );
+    if (retry) {
+      window.location.reload();
+    }
+  }
 
   const currentHour = scrollToCurrentHours();
   styleLivePrograms(timelines, currentHour);
@@ -77,6 +85,7 @@ function getProgramContainerWidth() {
   if (!programContainer) return 0;
   return programContainer.offsetWidth + 15;
 }
+let containerWidth = getProgramContainerWidth();
 
 function scrollToCurrentHours() {
   const currentHour = new Date().getHours();
@@ -133,7 +142,7 @@ filterApplyButton.addEventListener("click", () => {
 });
 
 prevButton.addEventListener("click", () => {
-  const containerWidth = getProgramContainerWidth();
+  containerWidth = getProgramContainerWidth();
   const { scrollWidth, clientWidth } = timelinesContainer;
 
   scrollPos = boxScrollPct * (scrollWidth - clientWidth);
@@ -146,7 +155,7 @@ prevButton.addEventListener("click", () => {
 });
 
 nextButton.addEventListener("click", () => {
-  const containerWidth = getProgramContainerWidth();
+  containerWidth = getProgramContainerWidth();
   const { scrollWidth, clientWidth } = timelinesContainer;
 
   scrollPos = boxScrollPct * (scrollWidth - clientWidth);
