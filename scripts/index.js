@@ -17,7 +17,7 @@ let timeOutId = null;
 
 //schedules emlements
 const filterApplyButton = document.querySelector("#filter-btn-apply");
-const filterDropdown = document.querySelector(".filter-dropdown");
+const filterDropdown = document.querySelector("#filter-dropdown");
 const timelinesContainer = document.querySelector("#timelines-container");
 const prevButton = document.getElementById("prev");
 const nextButton = document.getElementById("next");
