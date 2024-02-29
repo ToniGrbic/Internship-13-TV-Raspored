@@ -65,10 +65,12 @@ function styleLivePrograms(timelines, currentHour) {
   timelines.forEach((timeline) => {
     const programs = timeline.querySelectorAll(".program");
     for (const program of programs) {
-      const programTime =
-        program.previousElementSibling.textContent.split(":")[0];
+      const programTimeEl = program.previousElementSibling;
+      const programTime = programTimeEl.textContent.split(":")[0];
 
       if (programTime == currentHour) {
+        programTimeEl.innerHTML +=
+          "<img height='25px' width='40px' src='./assets/live-streaming-icon.avif' alt='live'>Live";
         program.classList.add("linear-gradient-orange");
         program.style.color = "white";
         break;
@@ -77,20 +79,38 @@ function styleLivePrograms(timelines, currentHour) {
   });
 }
 
-function checkMapValueExists(map, key) {
-  return map.get(key) !== undefined;
-}
+function createProgramContainers(program, startTime) {
+  const ratingDiv = document.createElement("div");
+  ratingDiv.textContent = `Rating: ${program.rating} / 5`;
 
-function setIsAdult() {
-  return Math.round(Math.random() - 0.3) === 1 ? true : false;
-}
+  const timeSlotDiv = document.createElement("div");
+  timeSlotDiv.className = "time-slot";
 
-function setRating() {
-  return Math.floor(Math.random() * 5) + 1;
-}
+  const timeDiv = document.createElement("div");
+  timeDiv.className = "time";
+  timeDiv.textContent = startTime;
+  timeSlotDiv.appendChild(timeDiv);
 
-function setIsRebroadcast() {
-  return Math.round(Math.random() - 0.1) === 1 ? true : false;
+  const programDiv = document.createElement("div");
+  programDiv.className = "program";
+
+  const nameDiv = document.createElement("div");
+  nameDiv.textContent = program.name;
+  nameDiv.className = "program-name";
+
+  if (program.isAdult) {
+    const isAdult = document.createElement("span");
+    isAdult.textContent = "18+";
+    isAdult.className = "adult";
+    nameDiv.appendChild(isAdult);
+  }
+  programDiv.appendChild(nameDiv);
+
+  const typeDiv = document.createElement("div");
+  typeDiv.textContent = program.type;
+  programDiv.appendChild(typeDiv);
+
+  return { timeSlotDiv, programDiv };
 }
 
 function setMissingProgramProperties(program) {
@@ -120,37 +140,19 @@ function setMissingProgramProperties(program) {
   else program.userRating = null;
 }
 
-function createProgramContainers(program, startTime) {
-  const ratingDiv = document.createElement("div");
-  ratingDiv.textContent = `Rating: ${program.rating} / 5`;
-
-  const timeSlotDiv = document.createElement("div");
-  timeSlotDiv.className = "time-slot";
-
-  const timeDiv = document.createElement("div");
-  timeDiv.textContent = startTime;
-  timeSlotDiv.appendChild(timeDiv);
-
-  const programDiv = document.createElement("div");
-  programDiv.className = "program";
-
-  const nameDiv = document.createElement("div");
-  nameDiv.textContent = program.name;
-  nameDiv.className = "program-name";
-
-  if (program.isAdult) {
-    const isAdult = document.createElement("span");
-    isAdult.textContent = "18+";
-    isAdult.className = "adult";
-    nameDiv.appendChild(isAdult);
-  }
-  programDiv.appendChild(nameDiv);
-
-  const typeDiv = document.createElement("div");
-  typeDiv.textContent = program.type;
-  programDiv.appendChild(typeDiv);
-
-  return { timeSlotDiv, programDiv };
+function checkMapValueExists(map, key) {
+  return map.get(key) !== undefined;
 }
 
+function setIsAdult() {
+  return Math.round(Math.random() - 0.3) === 1 ? true : false;
+}
+
+function setRating() {
+  return Math.floor(Math.random() * 5) + 1;
+}
+
+function setIsRebroadcast() {
+  return Math.round(Math.random() - 0.1) === 1 ? true : false;
+}
 export { displaySchedule, createProgramContainers, styleLivePrograms };

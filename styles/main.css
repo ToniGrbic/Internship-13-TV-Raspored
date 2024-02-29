@@ -78,6 +78,11 @@ body {
   margin-right: 15px;
 }
 
+.time img {
+  position: relative;
+  top: 7px;
+}
+
 .program {
   position: relative;
   border: 2px solid #ddd;
