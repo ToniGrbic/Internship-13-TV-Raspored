@@ -9,11 +9,15 @@ let areProgramsRebroadcast = new Map();
 
 function displaySchedule(scheduleArray, channelIndex, channel) {
   const timeline = document.querySelector(`#channel-${channelIndex} .timeline`);
+  if (scheduleArray.length === 0) {
+    timeline.innerHTML = "<p>No programs available</p>";
+    return;
+  }
 
   scheduleArray.forEach(([startTime, program], index) => {
     // remove seconds from the time
     startTime = startTime.slice(0, -3);
-    // Since the API does not provide some data, we generate random values.
+    // Since the API does not provide some properties, we generate random values and save them.
     setMissingProgramProperties(program);
     const { timeSlotDiv, programDiv } = createProgramContainers(
       program,
@@ -111,10 +115,9 @@ function setMissingProgramProperties(program) {
     areProgramsAdult.set(program.name, program.isAdult);
   }
 
-  if (checkMapValueExists(userRatings, program.name)) {
-    console.log(userRatings.get(program.name));
+  if (checkMapValueExists(userRatings, program.name))
     program.userRating = userRatings.get(program.name);
-  } else program.userRating = null;
+  else program.userRating = null;
 }
 
 function createProgramContainers(program, startTime) {
