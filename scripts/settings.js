@@ -31,6 +31,12 @@ if (filterAll.checked) {
   });
 }
 
+categoryFilters.forEach((category) => {
+  category.oninput = () => {
+    if (!category.checked) filterAll.checked = false;
+  };
+});
+
 filterAll.oninput = () => {
   if (filterAll.checked) {
     categoryFilters.forEach((category) => {
@@ -80,18 +86,11 @@ function filterSchedules(schedules) {
 }
 
 function filterByCategories(program) {
-  if (filterSport.checked && program.type === "Sport") return true;
-  if (filterNews.checked && program.type === "News") return true;
-  if (filterTVshow.checked && program.type === "TV Show") return true;
-  if (filterDocumentary.checked && program.type === "Documentary") return true;
-  return false;
-
-  // dynamic approach, needs to be debugged
-  /* const containsCategory = categoryFilters.some((category) => {
+  const containsCategory = categoryFilters.some((category) => {
     const categoryName = category.nextElementSibling.textContent;
     return category.checked && program.type === categoryName;
   });
-  return containsCategory; */
+  return containsCategory;
 }
 
 function filterByWachlist(program) {
