@@ -1,17 +1,12 @@
 :root {
+  --grey-color: #e0e0e0;
+  --orange-color: #ff7200;
   --linear-gradient-orange: linear-gradient(90deg, #d82b4e, #ff7200);
   --linear-gradient-purple: linear-gradient(
     90deg,
     rgb(188, 46, 220),
     rgb(10, 108, 255)
   );
-}
-body {
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  overflow-x: hidden;
-  font-family: "Roboto", sans-serif;
 }
 
 a,
@@ -22,6 +17,14 @@ button,
 #prev,
 #next {
   cursor: pointer;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  overflow-x: hidden;
+  font-family: "Roboto", sans-serif;
 }
 
 #schedule-wrapper {
@@ -112,6 +115,18 @@ button,
   flex-direction: column;
   justify-content: flex-start;
   gap: 4rem;
+}
+
+@media (max-width: 768px) {
+  #channels-container {
+    gap: 5rem;
+  }
+}
+
+@media (max-width: 438px) {
+  #channels-container {
+    gap: 6.5rem;
+  }
 }
 
 .channel-name {
@@ -244,7 +259,7 @@ button.linear-gradient-purple {
   position: absolute;
   top: 65px;
   right: 14px;
-  background-color: #e0e0e0;
+  background-color: var(--grey-color);
   padding: 0.5rem 1rem 1rem 1rem;
   border-radius: 5px;
   z-index: 3;
@@ -259,7 +274,7 @@ button.linear-gradient-purple {
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-bottom: 15px solid #e0e0e0;
+  border-bottom: 15px solid var(--grey-color);
 }
 
 #settings-dropdown::before {
@@ -271,7 +286,7 @@ button.linear-gradient-purple {
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-bottom: 15px solid #e0e0e0;
+  border-bottom: 15px solid var(--grey-color);
 }
 
 #filter-btn-apply {
@@ -279,7 +294,7 @@ button.linear-gradient-purple {
 }
 
 .settings-btn {
-  background-color: #ff7200;
+  background-color: var(--orange-color);
   color: white;
   border: none;
   border-radius: 5px;
