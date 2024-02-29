@@ -85,7 +85,6 @@ function getProgramContainerWidth() {
   if (!programContainer) return 0;
   return programContainer.offsetWidth + 15;
 }
-let containerWidth = getProgramContainerWidth();
 
 function scrollToCurrentHours() {
   const currentHour = new Date().getHours();
@@ -142,7 +141,7 @@ filterApplyButton.addEventListener("click", () => {
 });
 
 prevButton.addEventListener("click", () => {
-  containerWidth = getProgramContainerWidth();
+  const containerWidth = getProgramContainerWidth();
   const { scrollWidth, clientWidth } = timelinesContainer;
 
   scrollPos = boxScrollPct * (scrollWidth - clientWidth);
@@ -155,7 +154,7 @@ prevButton.addEventListener("click", () => {
 });
 
 nextButton.addEventListener("click", () => {
-  containerWidth = getProgramContainerWidth();
+  const containerWidth = getProgramContainerWidth();
   const { scrollWidth, clientWidth } = timelinesContainer;
 
   scrollPos = boxScrollPct * (scrollWidth - clientWidth);
