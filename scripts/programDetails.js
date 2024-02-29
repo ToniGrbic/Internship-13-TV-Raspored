@@ -145,4 +145,5 @@ export {
   removePreviousStarRating,
   fillStarRating,
   watchListPrograms,
+  userRatings,
 };

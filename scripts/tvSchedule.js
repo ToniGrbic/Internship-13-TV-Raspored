@@ -1,5 +1,6 @@
 import { setProgramDetails } from "./programDetails.js";
 import { inputParentPIN } from "./input.js";
+import { userRatings } from "./programDetails.js";
 
 let currentProgramDetails;
 let programRatings = new Map();
@@ -109,7 +110,11 @@ function setMissingProgramProperties(program) {
     program.isAdult = setIsAdult();
     areProgramsAdult.set(program.name, program.isAdult);
   }
-  program.userRating = null;
+
+  if (checkMapValueExists(userRatings, program.name)) {
+    console.log(userRatings.get(program.name));
+    program.userRating = userRatings.get(program.name);
+  } else program.userRating = null;
 }
 
 function createProgramContainers(program, startTime) {
