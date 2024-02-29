@@ -3,12 +3,14 @@ import { createStarRating } from "./programDetails.js";
 import { displaySchedule, styleLivePrograms } from "./tvSchedule.js";
 import { setParentPIN, getParentPIN } from "./input.js";
 import { filterSchedules } from "./settings.js";
+
 const channels = [
   "Sony Six HD",
   "CNN NEWS 18",
   "Republic TV",
   "Discovery HD World",
 ];
+
 let schedulesArray = [];
 let scrollPos = 0;
 let boxScrollPct = 0;
@@ -150,7 +152,7 @@ nextButton.addEventListener("click", () => {
   scrollPos = boxScrollPct * (scrollWidth - clientWidth);
   scrollPos += containerWidth;
 
-  if (scrollPos + 15 >= scrollWidth) {
+  if (scrollPos + (clientWidth - containerWidth) >= scrollWidth) {
     scrollPos = 0;
   }
   timelinesContainer.scroll({ left: scrollPos, behavior: "smooth" });
@@ -161,6 +163,7 @@ timelinesContainer.addEventListener("scroll", ({ target: t }) => {
   if (ignoreScroll) return;
   boxScrollPct = t.scrollLeft / (t.scrollWidth - t.clientWidth);
 });
+
 window.addEventListener("resize", (e) => {
   ignoreScroll = true;
   const { scrollWidth, clientWidth } = timelinesContainer;
