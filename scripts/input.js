@@ -1,7 +1,10 @@
 let parentPIN;
+let promptMessage = "Please provide a parent PIN. (4-8 digits)";
 
 function setParentPIN(message, oldPIN = null) {
   const newPIN = prompt(message);
+  if (!newPIN) return;
+
   if (isValidPIN(oldPIN, newPIN)) {
     alert("Parent PIN set successfully.");
     parentPIN = newPIN;
@@ -13,26 +16,36 @@ function setParentPIN(message, oldPIN = null) {
 }
 
 function isValidPIN(oldPIN, pin) {
-  let isValid = !isNaN(pin) || pin.length < 4 || pin.length > 8;
+  let isValid =
+    !isNaN(pin) || pin.length < 4 || pin.length > 8 || Number(pin) < 0;
   if (!oldPIN) return isValid;
 
-  isValid = isValid && pin !== oldPIN;
+  isValid = pin !== oldPIN;
   if (!isValid) alert("New PIN cannot be the same as the old PIN.");
 
   return isValid;
 }
 
 function changeParentPIN() {
+  if (!getParentPIN()) {
+    setParentPIN(promptMessage);
+    return;
+  }
+
   const oldPIN = prompt("Please enter the old parent PIN.");
+  if (!oldPIN) return;
+
   if (oldPIN !== parentPIN) {
     alert("Incorrect PIN. Access denied.");
     return;
   }
-  setParentPIN("Please provide a new parent PIN. (4-8 digits)", oldPIN);
+  setParentPIN(promptMessage, oldPIN);
 }
 
 function inputParentPIN() {
   const pin = prompt("Please enter the parent PIN to view this program.");
+  if (!pin) return false;
+
   if (pin !== parentPIN) {
     alert("Incorrect PIN. Access denied.");
     return false;
