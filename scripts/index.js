@@ -44,41 +44,39 @@ channelNames.forEach((channel, index) => {
 
 // Fetch data and display schedules
 document.addEventListener("DOMContentLoaded", async () => {
-  let channelSchedules = [];
-
   showLoading();
   try {
-    for (const channel of channels) {
-      channelSchedules.push(getChannelSchedule(channel));
-    }
+    const channelSchedules = channels.map((channel) =>
+      getChannelSchedule(channel)
+    );
     const schedules = await Promise.all(channelSchedules);
 
-    schedules.forEach((schedule, index) => {
+    schedulesArray = schedules.map((schedule, index) => {
       const scheduleArray = Object.entries(schedule);
       displaySchedule(scheduleArray, index + 1, channels[index]);
-      schedulesArray.push(scheduleArray);
+      return scheduleArray;
     });
   } catch (error) {
     const retry = confirm(
       "Failed to fetch TV schedules. Click OK to try again."
     );
-    if (retry) {
-      window.location.reload();
-    }
+    if (retry) window.location.reload();
   }
 
   const currentHour = scrollToCurrentHours();
   styleLivePrograms(timelines, currentHour);
   hideLoading();
+  checkParentPIN();
+});
 
+function checkParentPIN() {
   if (getParentPIN()) return;
-
   setTimeout(() => {
     setParentPIN(
       "Welcome to TV Schedule! Please provide a parent PIN. (4-8 digits)"
     );
   }, 300);
-});
+}
 
 function getProgramContainerWidth() {
   const programContainer = timelinesContainer.querySelector(".time-slot");

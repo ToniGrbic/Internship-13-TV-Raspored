@@ -145,7 +145,7 @@ function checkMapValueExists(map, key) {
 }
 
 function setIsAdult() {
-  return Math.round(Math.random() - 0.3) === 1 ? true : false;
+  return Math.round(Math.random() - 0.3) === 1;
 }
 
 function setRating() {
@@ -153,6 +153,6 @@ function setRating() {
 }
 
 function setIsRebroadcast() {
-  return Math.round(Math.random() - 0.1) === 1 ? true : false;
+  return Math.round(Math.random() - 0.1) === 1;
 }
 export { displaySchedule, createProgramContainers, styleLivePrograms };

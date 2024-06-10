@@ -16,13 +16,15 @@ function setParentPIN(message, oldPIN = null) {
 }
 
 function isValidPIN(oldPIN, pin) {
-  let isValid =
+  const isValid =
     !isNaN(pin) || pin.length < 4 || pin.length > 8 || Number(pin) < 0;
-  if (!oldPIN) return isValid;
 
-  isValid = pin !== oldPIN;
-  if (!isValid) alert("New PIN cannot be the same as the old PIN.");
+  if (!isValid) return false;
 
+  if (oldPIN && pin !== oldPIN) {
+    alert("New PIN cannot be the same as the old PIN.");
+    return false;
+  }
   return isValid;
 }
 
