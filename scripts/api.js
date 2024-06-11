@@ -2,7 +2,7 @@ const baseUrl = "https://indian-tv-schedule.p.rapidapi.com";
 const options = {
   method: "GET",
   headers: {
-    "X-RapidAPI-Key": "REPLACE_WITH_API_KEY",
+    "X-RapidAPI-Key": "REPLACE_WITH_API_KEY", // Replace with your API key
     "X-RapidAPI-Host": "indian-tv-schedule.p.rapidapi.com",
   },
 };
